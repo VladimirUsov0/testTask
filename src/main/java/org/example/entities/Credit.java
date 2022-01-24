@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name= "credit")
 @NoArgsConstructor
 public class Credit {
     @Id

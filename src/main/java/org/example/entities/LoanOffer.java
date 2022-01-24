@@ -6,9 +6,11 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "loan_offer")
 @NoArgsConstructor
 public class LoanOffer {
     @Id
@@ -26,8 +28,11 @@ public class LoanOffer {
     @ManyToOne
     Credit credit;
 
-    @OneToOne
-    PaymentSchedule paymentSchedule;
+    @Column(name = "credit_sum")
+    BigDecimal creditSum;
+
+    @OneToMany(mappedBy = "loanOffer")
+    List<PaymentSchedule> paymentSchedule;
 
 
     public LoanOffer(Client client, Credit credit) {

@@ -21,14 +21,9 @@ public class Bank {
             strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     UUID id;
-    @Column(name = "name")
-    public String name;
     @ManyToMany(mappedBy = "bankList")
     List<Credit> creditList;
     @ManyToMany(mappedBy = "bankList")
     List<Client> clientList;
 
-    public Bank(String name) {
-        this.name = name;
-    }
 }

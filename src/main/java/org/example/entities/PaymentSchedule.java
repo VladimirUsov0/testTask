@@ -3,15 +3,13 @@ package org.example.entities;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name = "payment_schedule")
 @NoArgsConstructor
 public class PaymentSchedule {
     @Id
@@ -23,7 +21,9 @@ public class PaymentSchedule {
     @Column(name = "id", updatable = false, nullable = false)
     UUID id;
 
-    BigDecimal creditSum;
+    @ManyToOne
+    @JoinColumn(name = "paymentSchedule")
+    LoanOffer loanOffer;
 
     LocalDate paymentDate;
 
@@ -32,5 +32,5 @@ public class PaymentSchedule {
     BigDecimal paymentCreditBody;
 
     BigDecimal paymentCreditPercent;
-    
+
 }

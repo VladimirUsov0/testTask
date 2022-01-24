@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
 @Controller
-public class MainView {
+public class MainController {
 
 
     @PostMapping("/addClient")

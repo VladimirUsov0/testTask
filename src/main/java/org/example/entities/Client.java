@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,11 +25,17 @@ public class Client {
     @Column(name = "id", updatable = false, nullable = false)
     UUID id;
     @Column(name = "fio", unique = true, nullable = false)
+    @NotBlank(message = "fio must be not blank")
     String fio;
+    @Column(name = "phone", unique = true, nullable = false)
+    @NotBlank(message = "phone must be not blank")
+    String phone;
     @Column(name = "email", unique = true, nullable = false)
-    String eMail;
+    @NotBlank(message = "email must be not blank")
+    String email;
     @NaturalId
     @Column(name = "passportNumber", unique = true, nullable = false)
+    @NotBlank(message = "passport number must be not blank")
     String passportNumber;
 
     @ManyToMany(cascade = {CascadeType.ALL})
@@ -39,9 +46,10 @@ public class Client {
     )
     List<Bank> bankList;
 
-    public Client(String fio, String eMail, String passportNumber) {
+    public Client(String fio, String email, String phone, String passportNumber) {
         this.fio = fio;
-        this.eMail = eMail;
+        this.phone = phone;
+        this.email = email;
         this.passportNumber = passportNumber;
     }
 }
