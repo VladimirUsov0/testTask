@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--<button th:action="/addClient" ></button>-->
+<table th:id="clients">
+<thead>
+<tr>
+    <td>FIO</td>
+    <td>Email</td>
+    <td>Passport</td>
+</tr>
+</thead>
+    <tbody>
+    <tr th:each="client:${@clientRepo.findAll()}">
+        <td th:text="client.getFio()"></td>
+        <td th:text="client.getEmail()"></td>
+        <td th:text="client.getPassportNumber()"></td>
+        <td th:text="Изменить">
+            <form action="/edit">
+                <button action="submit"></button>
+            </form>
+        </td>>
+    </tr>
+    </tbody>
+
+</table>
+</body>
+</html>

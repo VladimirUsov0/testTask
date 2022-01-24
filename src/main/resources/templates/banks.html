@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Банки</title>
+</head>
+<body>
+<table th:id="table1">
+    <tr>
+        <th>Время последнего вызова</th>
+        <th>Номер телефона</th>
+        <th>Обратный звонок?</th>
+    </tr>
+    <tr th:each="bank:${@bankRepo.findAll()}">
+<!--        <td th:text="${#dates.format(call.getDate(),'HH:mm')}"></td>-->
+        <td th:text="${bank}"></td>
+        <td th:class="bank" th:text="${bankRepo.findAll()}? да : нет"></td>
+    </tr>
+</table>
+</body>
+</html>

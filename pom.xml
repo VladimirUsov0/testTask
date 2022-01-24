@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.tests</groupId>
+    <groupId>org.example</groupId>
     <artifactId>haulmontTest</artifactId>
     <version>1.0</version>
     <parent>
@@ -15,7 +15,6 @@
     </parent>
     <properties>
         <java.version>11</java.version>
-        <vaadin.version>14.8.1</vaadin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -47,6 +46,10 @@
             <artifactId>hsqldb</artifactId>
             <version>2.5.0</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
 
     </dependencies>
