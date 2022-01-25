@@ -46,6 +46,9 @@ public class Client {
     )
     List<Bank> bankList;
 
+    @OneToMany(mappedBy = "client")
+    List<LoanOffer> loanOfferList;
+
     public Client(String fio, String email, String phone, String passportNumber) {
         this.fio = fio;
         this.phone = phone;

@@ -34,6 +34,9 @@ public class Credit {
     )
     List<Bank> bankList;
 
+    @OneToMany(mappedBy = "credit")
+    List<LoanOffer> loanOfferList;
+
     public Credit(BigDecimal limit, float percent) {
         this.limit = limit;
         this.percent = percent;

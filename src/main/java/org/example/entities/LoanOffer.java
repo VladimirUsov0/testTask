@@ -35,8 +35,9 @@ public class LoanOffer {
     List<PaymentSchedule> paymentSchedule;
 
 
-    public LoanOffer(Client client, Credit credit) {
+    public LoanOffer(Client client, Credit credit,BigDecimal creditSum) {
         this.client = client;
         this.credit = credit;
+        this.creditSum = creditSum;
     }
 }

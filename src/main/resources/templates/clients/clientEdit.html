@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/clients/edit}" th:object="${client}" th:method="post">
+    <label>Name</label>
+    <input type="text" th:field="${client.getFio()}">
+    <input type="text" th:field="${client.getPhone()}">
+    <input type="text" th:field="${client.getEmail()}">
+    <input type="text" th:field="${client.getPassportNumber()}">
+    <input type="submit" value="Сохранить">
+</form>
+<label> cgbcjr ,fyrjd</label>
+<table>
+    <tr><td>id bank</td>  </tr>
+    <tr th:each="bank:${client.getBankList()}">
+        <td  th:text="${bank.getId()}"></td>
+    </tr>
+</table>
+<label> sdad ,fyrjd</label>
+<table>
+    <tr><td>id bank</td>  </tr>
+    <tr th:each="loanOffer:${client.getLoanOfferList()}">
+        <td  th:text="${loanOffer}"></td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,7 +1,9 @@
 package org.example.services.data;
 
 import lombok.AllArgsConstructor;
+import org.example.entities.Bank;
 import org.example.entities.Client;
+import org.example.entities.LoanOffer;
 import org.example.repo.ClientRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void delete(UUID id) {
         clientRepo.deleteById(id);
+    }
+
+    @Override
+    public Client getById(UUID id) {
+        return clientRepo.getById(id);
     }
 
     @Override
@@ -55,5 +62,15 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<Client> getAll() {
         return clientRepo.findAll();
+    }
+
+    @Override
+    public List<Client> findAllByBank(Bank bank) {
+        return clientRepo.findAllByBankListContaining(bank);
+    }
+
+    @Override
+    public List<Client> findAllByLoanOffer(LoanOffer loanOffer) {
+        return clientRepo.findAllByLoanOfferListContaining(loanOffer);
     }
 }

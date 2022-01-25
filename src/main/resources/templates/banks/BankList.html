@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список банков</title>
+</head>
+<body>
+
+
+<table th:id="table1">
+    <tr>
+        <th>ID</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr th:each="bank:${bankService.getAll()}">
+        <!--        <td th:text="${#dates.format(call.getDate(),'HH:mm')}"></td>-->
+        <td th:text="${bank.getId()}"></td>
+        <td><a th:href="@{/banks/edit/{bankId}(bankId=*{bank.id})}" th:utext="edit">...</a></td>
+        <td><a th:href="@{/banks/delete/{bankId}(bankId=*{bank.id})}" th:utext="delete">...</a></td>
+    </tr>
+</table>
+</body>
+</html>

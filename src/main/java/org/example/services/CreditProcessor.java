@@ -1,5 +1,6 @@
 package org.example.services;
 
+import org.example.services.data.LoanOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.example.repo.ClientRepo;
@@ -10,8 +11,8 @@ import java.math.BigDecimal;
 public class CreditProcessor {
 
 
-    @Autowired
-    ClientRepo clientRepo;
+    LoanOfferService loanOfferService;
+
 
     void dd(){
 

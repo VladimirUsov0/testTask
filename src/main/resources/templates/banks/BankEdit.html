@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/banks/BankEdit}" th:object="${bank}" th:method="post">
+    <label>Name</label>
+    <input type="text" th:field="*{id}">
+    <input type="submit" value="Сохранить">
+</form>
+<!--todo получить списки свзянных клиентов-->
+<!--todo получить списки свзянных кредитов-->
+</body>
+</html>
