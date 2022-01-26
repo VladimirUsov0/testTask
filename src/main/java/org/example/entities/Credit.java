@@ -1,5 +1,6 @@
 package org.example.entities;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name= "credit")
 @NoArgsConstructor
+@Data
 public class Credit {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -18,7 +20,7 @@ public class Credit {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     UUID id;
 
     @Column(name= "limit")
@@ -26,7 +28,7 @@ public class Credit {
     @Column(name= "percent")
     float percent;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
     @JoinTable(
             name = "bank_credit",
             joinColumns = {@JoinColumn(name = "credit")},

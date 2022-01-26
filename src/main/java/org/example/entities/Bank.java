@@ -19,11 +19,11 @@ public class Bank {
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     UUID id;
-    @ManyToMany(mappedBy = "bankList")
+    @ManyToMany(mappedBy = "bankList", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
     List<Credit> creditList;
-    @ManyToMany(mappedBy = "bankList")
+    @ManyToMany(mappedBy = "bankList", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
     List<Client> clientList;
 
 }

@@ -1,5 +1,6 @@
 package org.example.entities;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "payment_schedule")
 @NoArgsConstructor
+@Data
 public class PaymentSchedule {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -18,7 +20,7 @@ public class PaymentSchedule {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     UUID id;
 
     @ManyToOne
@@ -33,4 +35,11 @@ public class PaymentSchedule {
 
     BigDecimal paymentCreditPercent;
 
+    public PaymentSchedule(LoanOffer loanOffer, LocalDate paymentDate, BigDecimal paymentSum, BigDecimal paymentCreditBody, BigDecimal paymentCreditPercent) {
+        this.loanOffer = loanOffer;
+        this.paymentDate = paymentDate;
+        this.paymentSum = paymentSum;
+        this.paymentCreditBody = paymentCreditBody;
+        this.paymentCreditPercent = paymentCreditPercent;
+    }
 }

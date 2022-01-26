@@ -6,7 +6,9 @@ import org.example.entities.Client;
 import org.example.entities.Credit;
 import org.example.repo.BankRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +18,9 @@ import java.util.UUID;
 public class BankServiceImpl implements BankService {
 
     BankRepo bankRepo;
+
+    EntityManager em;
+
 
     @Override
     public Bank findById(UUID id) {
@@ -30,7 +35,22 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public void delete(UUID id) {
-        bankRepo.deleteById(id);
+        Bank bank = em.find(Bank.class, id);
+        for (Client client : bank.getClientList()) {
+            //remove bank don't remove client
+            if (client.getBankList().size() != 0) {
+                client.getBankList().remove(bank);
+            }
+        }
+        for (Credit credit : bank.getCreditList()) {
+            //when removing bank remove credit if they had no other related bank
+            if (credit.getBankList().size() == 0) {
+                em.remove(credit);
+            } else {
+                credit.getBankList().remove(bank);
+            }
+        }
+        em.remove(bank);
     }
 
     @Override

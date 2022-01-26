@@ -12,6 +12,37 @@
     <input type="submit" value="Сохранить">
 </form>
 <!--todo получить списки свзянных клиентов-->
+<p>
+    Клиенты:
+</p>
+<
+<table>
+    <tr>
+        <th>Fio</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Passport</th>
+    </tr>
+    <tr th:each="client:${bank?.getClientList()}">
+        <td th:text="${client.getFio()}"></td>
+        <td th:text="${client.getPhone()}"></td>
+        <td th:text="${client.getEmail()}"></td>
+        <td th:text="${client.getPassportNumber()}"></td>
+    </tr>
+</table>
+<p>
+    Кредиты:
+</p>
 <!--todo получить списки свзянных кредитов-->
+<table>
+    <tr>
+        <th>Limit</th>
+        <th>Percent</th>
+    </tr>
+    <tr th:each="credit:${bank?.getCreditList()}">
+        <td th:text="${credit.getLimit()}"></td>
+        <td th:text="${credit.getPercent()}"></td>
+    </tr>
+</table>
 </body>
 </html>

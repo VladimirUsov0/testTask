@@ -13,16 +13,16 @@
     <input type="text" th:field="${client.getPassportNumber()}">
     <input type="submit" value="Сохранить">
 </form>
-<label> cgbcjr ,fyrjd</label>
+<p>Обслуживается в:</p>
 <table>
     <tr><td>id bank</td>  </tr>
     <tr th:each="bank:${client.getBankList()}">
         <td  th:text="${bank.getId()}"></td>
     </tr>
 </table>
-<label> sdad ,fyrjd</label>
+<p>Имеющиеся кредиты:</p>
 <table>
-    <tr><td>id bank</td>  </tr>
+    <tr><td>id</td>  </tr>
     <tr th:each="loanOffer:${client.getLoanOfferList()}">
         <td  th:text="${loanOffer}"></td>
     </tr>

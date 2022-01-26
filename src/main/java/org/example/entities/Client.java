@@ -22,7 +22,7 @@ public class Client {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     UUID id;
     @Column(name = "fio", unique = true, nullable = false)
     @NotBlank(message = "fio must be not blank")
@@ -38,7 +38,7 @@ public class Client {
     @NotBlank(message = "passport number must be not blank")
     String passportNumber;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade ={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
     @JoinTable(
             name = "bank_client",
             joinColumns = {@JoinColumn(name = "client")},
