@@ -26,7 +26,7 @@ public class Credit {
     @Column(name= "limit")
     BigDecimal limit;
     @Column(name= "percent")
-    float percent;
+    double percent;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
     @JoinTable(
@@ -39,7 +39,7 @@ public class Credit {
     @OneToMany(mappedBy = "credit")
     List<LoanOffer> loanOfferList;
 
-    public Credit(BigDecimal limit, float percent) {
+    public Credit(BigDecimal limit, double percent) {
         this.limit = limit;
         this.percent = percent;
     }

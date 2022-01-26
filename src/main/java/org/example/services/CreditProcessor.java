@@ -25,27 +25,30 @@ public class CreditProcessor {
 
         List<PaymentSchedule> result = new ArrayList<>(months + 1);
 
+        //меячная процентная ставка
         double mIR = monthIR(loanOffer);
         double creditIRMonth = Math.pow(1 + mIR, months);
+        //сумма кредита
         BigDecimal totalSum = loanOffer.getTotalSum();
-
+        //общая сумма погашения
         BigDecimal totalMoney = (BigDecimal.valueOf(months).
                 multiply(totalSum).
                 multiply(BigDecimal.valueOf(mIR)).
                 multiply(BigDecimal.valueOf(creditIRMonth))).
-                divide(BigDecimal.valueOf((creditIRMonth - 1)), 2, RoundingMode.HALF_UP);
-        BigDecimal totalInterests = totalMoney.subtract(totalSum).setScale(2, RoundingMode.HALF_UP);
-
-        BigDecimal loanBalance = loanOffer.getTotalSum();
+                divide(BigDecimal.valueOf((creditIRMonth - 1)), 2, RoundingMode.HALF_EVEN);
+        System.out.println(totalMoney);
+        BigDecimal totalInterests = totalMoney.subtract(totalSum).setScale(2, RoundingMode.HALF_EVEN);
+        //осталось к выплате
+        BigDecimal loanBalance = totalSum;
 
         for (int i = 0; i < months; i++) {
             LocalDate paymentDate = loanOffer.getDateOfIssue().plusMonths(i+1);
-
+            System.out.println(totalMoney);
             BigDecimal paymentCreditPercent = loanBalance.multiply(BigDecimal.valueOf(mIR)).
-                    setScale(2, RoundingMode.HALF_UP);
-            BigDecimal paymentCreditBody = totalMoney.divide(BigDecimal.valueOf(months), 2, RoundingMode.HALF_UP);
+                    setScale(2, RoundingMode.HALF_EVEN);
+            BigDecimal paymentCreditBody = totalMoney.divide(BigDecimal.valueOf(months), 2, RoundingMode.HALF_EVEN);
             BigDecimal paymentSum = paymentCreditBody.add(paymentCreditPercent)
-                    .setScale(2, RoundingMode.HALF_UP);
+                    .setScale(2, RoundingMode.HALF_EVEN);
 
             loanBalance = loanBalance.subtract(paymentCreditBody);
 
@@ -58,8 +61,9 @@ public class CreditProcessor {
 
     //monthInterestRate
     private double monthIR(LoanOffer loanOffer) {
-        double percent = Double.parseDouble(Float.toString(loanOffer.getCredit().getPercent()));
-        return percent / 100 / 12;
+        double percent = loanOffer.getCredit().getPercent();
+        return percent / 100d / 12d;
+//        return 0.015416d;
     }
 
 }
