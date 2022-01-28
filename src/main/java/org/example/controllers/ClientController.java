@@ -27,7 +27,7 @@ public class ClientController {
     @GetMapping(value = "/edit/{clientId}")
     public String editBank(Model model, @PathVariable("clientId") String id) {
         System.out.println(id);
-        model.addAttribute("client", clientService.getById(UUID.fromString(id)));
+        model.addAttribute("client", clientService.findById(UUID.fromString(id)));
         return "clients/clientEdit";
     }
 

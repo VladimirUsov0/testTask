@@ -7,6 +7,7 @@ import org.example.entities.LoanOffer;
 import org.example.repo.CreditRepo;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,11 @@ import java.util.UUID;
 public class CreditServiceImpl implements CreditService{
 
     CreditRepo creditRepo;
+
+    @Override
+    public Credit findById(UUID id) {
+        return creditRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
 
     @Override
     public Credit addCredit(Credit credit) {

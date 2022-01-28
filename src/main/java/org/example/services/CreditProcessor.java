@@ -16,43 +16,60 @@ import java.util.List;
 public class CreditProcessor {
 
 
-
-
     public List<PaymentSchedule> countAnnuitet(LoanOffer loanOffer) {
 
+        final int months = loanOffer.getPeriodMonths();
 
-        int months = loanOffer.getPeriodMonths();
+        List<PaymentSchedule> result = new ArrayList<>(months);
 
-        List<PaymentSchedule> result = new ArrayList<>(months + 1);
-
-        //меячная процентная ставка
-        double mIR = monthIR(loanOffer);
-        double creditIRMonth = Math.pow(1 + mIR, months);
-        //сумма кредита
+        //monthly interest rate
+        final double mIR = monthIR(loanOffer);
+        final double pow = Math.pow(1 + mIR, months);
+        //total loan amount
         BigDecimal totalSum = loanOffer.getTotalSum();
-        //общая сумма погашения
-        BigDecimal totalMoney = (BigDecimal.valueOf(months).
-                multiply(totalSum).
-                multiply(BigDecimal.valueOf(mIR)).
-                multiply(BigDecimal.valueOf(creditIRMonth))).
-                divide(BigDecimal.valueOf((creditIRMonth - 1)), 2, RoundingMode.HALF_EVEN);
-        System.out.println(totalMoney);
-        BigDecimal totalInterests = totalMoney.subtract(totalSum).setScale(2, RoundingMode.HALF_EVEN);
-        //осталось к выплате
+
+        //сумма ежемесячной выплаты
+        /*
+         * total monthly payment formula:
+         * TS*(mIR+(mIR/(pow(1+mIR,M)-1)))
+         * where TS - total loan amount
+         * mIR - monthly interest rate
+         * M - loan period in months
+         * */
+        BigDecimal totalMonthPay = totalSum.
+                multiply(BigDecimal.valueOf(mIR).
+                        add(BigDecimal.valueOf(mIR).
+                                divide(BigDecimal.valueOf(pow)
+                                        .subtract(BigDecimal.ONE), 12, RoundingMode.HALF_UP)));
+
+        //left to pay
         BigDecimal loanBalance = totalSum;
 
         for (int i = 0; i < months; i++) {
-            LocalDate paymentDate = loanOffer.getDateOfIssue().plusMonths(i+1);
-            System.out.println(totalMoney);
-            BigDecimal paymentCreditPercent = loanBalance.multiply(BigDecimal.valueOf(mIR)).
-                    setScale(2, RoundingMode.HALF_EVEN);
-            BigDecimal paymentCreditBody = totalMoney.divide(BigDecimal.valueOf(months), 2, RoundingMode.HALF_EVEN);
-            BigDecimal paymentSum = paymentCreditBody.add(paymentCreditPercent)
-                    .setScale(2, RoundingMode.HALF_EVEN);
+            // months iter
+            LocalDate paymentDate = loanOffer.getDateOfIssue().plusMonths(i + 1);
+            /*
+             * Percentage part as LP * mIR
+             * where LP - left to pay and mIR - monthly interest rate
+             */
+            BigDecimal paymentCreditPercent = loanBalance.multiply(BigDecimal.valueOf(mIR));
+            /*
+             * loan body as TMP - PP
+             * where TMP - total monthly payment and PP - Percentage part
+             * */
+            BigDecimal paymentCreditBody = totalMonthPay.subtract(paymentCreditPercent).setScale(12, RoundingMode.HALF_UP);
 
+            /*
+             *  the loan balance is calculated at each iteration as
+             *  loan balance - amount of the loan body last month
+             * */
             loanBalance = loanBalance.subtract(paymentCreditBody);
 
-            PaymentSchedule ps = new PaymentSchedule(loanOffer, paymentDate, paymentSum, paymentCreditBody, paymentCreditPercent);
+            PaymentSchedule ps = new PaymentSchedule(loanOffer,
+                    paymentDate,
+                    totalMonthPay.setScale(2, RoundingMode.HALF_EVEN),
+                    paymentCreditBody.setScale(2, RoundingMode.HALF_EVEN),
+                    paymentCreditPercent.setScale(2, RoundingMode.HALF_EVEN));
             result.add(ps);
         }
 
@@ -63,7 +80,6 @@ public class CreditProcessor {
     private double monthIR(LoanOffer loanOffer) {
         double percent = loanOffer.getCredit().getPercent();
         return percent / 100d / 12d;
-//        return 0.015416d;
     }
 
 }

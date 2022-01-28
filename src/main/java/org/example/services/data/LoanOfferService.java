@@ -12,13 +12,12 @@ import java.util.UUID;
 public interface LoanOfferService {
 
     LoanOffer addLoanOffer(LoanOffer loanOffer);
+    LoanOffer findById(UUID id);
+    @Transactional
     void delete(UUID id);
     @Transactional
     LoanOffer editLoanOffer(LoanOffer loanOffer);
     List<LoanOffer> getAll();
     LoanOffer findByClient(Client client);
     LoanOffer findByCredit(Credit credit);
-
-
-
 }

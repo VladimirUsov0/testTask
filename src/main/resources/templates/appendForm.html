@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+</head>
+<body>
+<table class="table" style="">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Fio</th>
+        <th>Phone</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <div class="container">
+        <form method="POST" th:action="@{/client/appendClient">
+            <button type="submit" class="btn btn-primary btn-sm"
+                    style="display: inline; position: static; float: left; line-height: 24px; text-align: justify;">
+                Add
+                new client
+            </button>
+        </form>
+
+
+    </div>
+
+
+
+
+    <tr th:each="client:${bank?.getClientList()}">
+        <th scope="row">
+            <label class="checkbox" style="">
+                <input type="checkbox"></label>
+
+        </th>
+        <td th:text="${client.getFio()}"></td>
+        <td th:text="${client.getPhone()}"></td>
+        <td th:text="${client.getEmail()}"></td>
+        <td>
+            <form method="POST" th:action="@{/banks/delete}">
+                <input type="hidden" name="bankId" th:value="*{bank.getId()}">
+                <button type="submit" class="btn btn-danger btn-warning btn-sm" style="">Delete
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import org.example.Main;
 import org.example.entities.Client;
+import org.example.entities.Credit;
 import org.example.entities.LoanOffer;
 import org.example.services.CreditProcessor;
 import org.example.services.data.CreditService;
@@ -25,13 +26,13 @@ public class CreditProcessorTest {
     @Transactional
     public void annuitettest() {
         LoanOffer loanOffer = new LoanOffer(new Client(),
-                creditService.getAll().get(1),
-                new BigDecimal("100000"),
+                new Credit(new BigDecimal("5000000"),12),
+                new BigDecimal("200000"),
                 LocalDate.now(),
                 new BigDecimal("10"),
-                6);
+                24);
 
-
+        System.out.println("    date   getPaymentCreditBody    getPaymentCreditPercent    getPaymentSum"  );
         creditProcessor.countAnnuitet(loanOffer).stream()
                 .forEach(
                         (x) -> System.out.println(

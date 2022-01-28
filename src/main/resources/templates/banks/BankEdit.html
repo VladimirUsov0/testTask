@@ -3,46 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
 </head>
+
 <body>
 
-<form th:action="@{/banks/BankEdit}" th:object="${bank}" th:method="post">
-    <label>Name</label>
-    <input type="text" th:field="*{id}">
-    <input type="submit" value="Сохранить">
-</form>
-<!--todo получить списки свзянных клиентов-->
-<p>
-    Клиенты:
-</p>
-<
-<table>
-    <tr>
-        <th>Fio</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Passport</th>
-    </tr>
-    <tr th:each="client:${bank?.getClientList()}">
-        <td th:text="${client.getFio()}"></td>
-        <td th:text="${client.getPhone()}"></td>
-        <td th:text="${client.getEmail()}"></td>
-        <td th:text="${client.getPassportNumber()}"></td>
-    </tr>
-</table>
-<p>
-    Кредиты:
-</p>
-<!--todo получить списки свзянных кредитов-->
-<table>
-    <tr>
-        <th>Limit</th>
-        <th>Percent</th>
-    </tr>
-    <tr th:each="credit:${bank?.getCreditList()}">
-        <td th:text="${credit.getLimit()}"></td>
-        <td th:text="${credit.getPercent()}"></td>
-    </tr>
-</table>
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+
+        </nav>
+        <h3 class="text-muted">Bank details</h3>
+    </div>
+    <div class="container">
+        <form class="form-horizontal" th:action="@{/banks/BankEdit}" th:object="${bank}" th:method="post">
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Form Name</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">ID</label>
+                    <div class="col-md-2">
+                        <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" size="50"
+                               th:field="*{id}" readonly>
+
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">NAME</label>
+                    <div class="col-md-4">
+                        <input id="textinput" name="textinput" type="text" placeholder="no name bank"
+                               class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Button (Double) -->
+                <div class="form-group">
+                    <!--            <label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+                    <div class="col-md-8">
+                        <button type="submit" id="button1id" name="button1id" class="btn btn-success">Save Changes
+                        </button>
+                        <!--                <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button>-->
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+
+    <div class="container">
+        <div class="row" style="">
+            <div class="col-sm-6">
+                <h3>Clients</h3>
+                <!--                    todo appendForm for client needed here-->
+                <form method="POST" th:action="@{/banks/appendClient}">
+
+                    <button type="submit" class="btn btn-primary btn-sm"
+                            style="display: inline; position: static; float: left; line-height: 24px; text-align: justify;">
+                        Add
+                        new client
+                    </button>
+                </form>
+
+                <table class="table" style="">
+                    <thead>
+                    <tr>
+                        <th>Fio</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="client:${bank?.getClientList()}">
+                        <td th:text="${client.getFio()}"></td>
+                        <td th:text="${client.getPhone()}"></td>
+                        <td th:text="${client.getEmail()}"></td>
+                        <td>
+                            <form method="POST" th:action="@{/banks/detachClient}">
+                                <input type="hidden" th:name="bankId" th:value="*{bank.getId()}">
+                                <input type="hidden" th:name="clientToDetach" th:value="*{client.getId()}">
+                                <button type="submit" class="btn btn-danger btn-warning btn-sm" style="">Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-sm-4 col-5">
+                <h3>Credits</h3>
+                <!--                    todo appendForm for credit needed here-->
+                <form method="POST" th:action="@{/credit/add}">
+                    <button type="submit" class="btn btn-primary btn-sm"
+                            style="display: inline; position: static; float: left; line-height: 24px; text-align: justify;">
+                        Add new credit
+                    </button>
+                </form>
+                <table class="table" style="">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Percent</th>
+                        <th>Limit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="credit:${bank?.getCreditList()}">
+                        <td th:text="${credit.getId()}"></td>
+                        <td th:text="${credit.getPercent()}"></td>
+                        <td th:text="${credit.getLimit()}"></td>
+                        <td>
+                            <form method="POST" th:action="@{/banks/detachCredit}">
+                                <input type="hidden" name="bankId" th:value="*{bank.getId()}">
+                                <input type="hidden" name="creditToDetach" th:value="*{credit.getId()}">
+                                <button type="submit" class="btn btn-danger btn-warning btn-sm" style="">Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="row marketing">
+    </div>
+    <footer class="footer">
+        <p>© Company 2017</p>
+    </footer>
+
+</div> <!-- /container -->
+
+
 </body>
 </html>

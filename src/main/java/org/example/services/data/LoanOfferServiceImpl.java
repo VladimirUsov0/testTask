@@ -24,6 +24,11 @@ public class LoanOfferServiceImpl implements LoanOfferService {
     }
 
     @Override
+    public LoanOffer findById(UUID id) {
+        return loanOfferRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
     public void delete(UUID id) {
         loanOfferRepo.deleteById(id);
     }

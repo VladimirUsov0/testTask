@@ -1,37 +1,92 @@
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Список банков</title>
-</head>
-<body>
-<h2>Список Банков</h2>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<form method="POST" th:action="@{/banks/add}">
-    <input type="hidden" name="bankId" th:value="*{bank.getId()}" />
-    <button type="submit" name="submit" value="value" class="link-button">Delete</button>
-</form>
-<table th:id="table1">
-    <tr>
-        <th>ID</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr th:each="bank:${bankService?.getAll()}">
-        <td th:text="${bank.getId()}"></td>
-        <td>
-            <form method="POST" th:action="@{/banks/edit}">
-                <input type="hidden" name="bankId" th:value="*{bank.getId()}" />
-                <button type="submit" name="submit" value="value" class="link-button">Edit</button>
-            </form>
-        </td>
-        <td>
-            <form method="POST" th:action="@{/banks/delete}">
-                <input type="hidden" name="bankId" th:value="*{bank.getId()}" />
-                <button type="submit" name="submit" value="value" class="link-button">Delete</button>
-            </form>
-        </td>
-    </tr>
-</table>
+    <title>List of banks</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills float-right">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+
+                </li>
+            </ul>
+        </nav>
+        <h3 class="text-muted">Список банков</h3>
+        <p>
+        </p>
+
+    </div>
+
+
+
+
+
+
+    <div class="header clearfix">
+        <form method="POST" th:action="@{/banks/addNew}">
+        <button type="submit" class="btn btn-primary btn-lg"
+                style="display: inline; position: static; float: left; line-height: 24px; text-align: justify;">Add new bank
+        </button>
+        </form>
+    </div>
+    <div class="header clearfix">
+
+        <table class="table" style="">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th></th>
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bank:${bankService?.getAll()}">
+                <td th:text="*{bank.getId()}"></td>
+                <td>No name bank</td>
+                <td>
+                    <form method="POST" th:action="@{/banks/edit}">
+                        <input type="hidden" name="bankId" th:value="*{bank.getId()}"/>
+                    <button type="submit" class="btn btn-info btn-sm" style="" >Details
+                    </button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" th:action="@{/banks/delete}">
+                    <input type="hidden" name="bankId" th:value="*{bank.getId()}"/>
+                    <button type="submit" class="btn btn-danger btn-warning btn-sm" style="">Delete
+                    </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row marketing">
+    </div>
+    <footer class="footer">
+        <div class="container" style=""></div>
+        <p>© Company 2017</p>
+    </footer>
+</div> <!-- /container -->
+
 </body>
 </html>
