@@ -39,6 +39,9 @@ public class Credit {
     @OneToMany(mappedBy = "credit")
     List<LoanOffer> loanOfferList;
 
+    @Transient
+    UUID creditID;
+
     public Credit(BigDecimal limit, double percent) {
         this.limit = limit;
         this.percent = percent;

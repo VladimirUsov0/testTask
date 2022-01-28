@@ -1,6 +1,6 @@
 package org.example.entities;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @Table(name = "client")
-@Data
+@Getter
 public class Client {
 
     @Id
@@ -38,7 +38,7 @@ public class Client {
     @NotBlank(message = "passport number must be not blank")
     String passportNumber;
 
-    @ManyToMany(cascade ={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "bank_client",
             joinColumns = {@JoinColumn(name = "client")},
@@ -48,6 +48,9 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     List<LoanOffer> loanOfferList;
+
+    @Transient
+    UUID clientID;
 
     public Client(String fio, String email, String phone, String passportNumber) {
         this.fio = fio;

@@ -1,12 +1,10 @@
 package org.example.entities;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

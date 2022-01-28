@@ -12,10 +12,7 @@ import org.example.services.data.LoanOfferService;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,17 +32,21 @@ public class OfferController {
 
     @PostMapping("/create")
     public String createOfferAndShowSchedule(Model model,
-                                             @RequestParam("clientId") String clientId,
-                                             @RequestParam("creditId") String creditId,
-                                             @RequestParam("sum") String sum,
-                                             @RequestParam("period") String period) {
-        Client client = clientService.findById(UUID.fromString(clientId));
-        Credit credit = creditService.findById(UUID.fromString(creditId));
-        BigDecimal sumbd = new BigDecimal(sum);
-        int monthsCount = Integer.parseInt(period);
-        LoanOffer loanOffer = new LoanOffer(client,credit,sumbd, LocalDate.now(),BigDecimal.ZERO,monthsCount);
-        List<PaymentSchedule> paymentScheduleList =  creditProcessor.countAnnuitet(loanOffer);
-        model.addAttribute("paymentScheduleList",paymentScheduleList);
+                                             @ModelAttribute("loanOffer") LoanOffer loanOffer) {
+
+        //        Client client = clientService.findById(UUID.fromString(clientId));
+//        Credit credit = creditService.findById(UUID.fromString(creditId));
+//        BigDecimal sumbd = new BigDecimal(sum);
+//        int monthsCount = Integer.parseInt(period);
+//        LoanOffer loanOffer = new LoanOffer(client,credit,sumbd, LocalDate.now(),BigDecimal.ZERO,monthsCount);
+          Credit credit = creditService.findById(loanOffer.getCredit().getCreditID());
+        Client client = clientService.findById(loanOffer.getClient().getClientID());
+        loanOffer.setCredit(credit);
+        loanOffer.setClient(client);
+        LoanOffer la =  loanOfferService.addLoanOffer(loanOffer);
+        la.setPaymentSchedule(creditProcessor.countAnnuitet(la));
+//        List<PaymentSchedule> paymentScheduleList =  creditProcessor.countAnnuitet(la);
+        model.addAttribute("paymentScheduleList",la.getPaymentSchedule());
         return "/offer/schedule";
     }
 
@@ -54,7 +55,7 @@ public class OfferController {
 
         model.addAttribute("clients",clientService.getAll());
         model.addAttribute("credits",creditService.getAll());
-
+        model.addAttribute("loanOffer",new LoanOffer());
         return "/offer/createOffer";
     }
 
