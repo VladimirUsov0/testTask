@@ -19,10 +19,6 @@ public class MainController {
         clientRepo.save(client);
     }
 
-    @GetMapping("/banks")
-    public String showBanks(){
-        return "banks";
-    }
 
     @GetMapping("/clients")
     public String showClients(){

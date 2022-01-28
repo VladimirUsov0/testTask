@@ -35,7 +35,7 @@
 
 
         <p></p>
-        <form class="form-horizontal" th:action="@{/offer/create}">
+        <form class="form-horizontal" th:action="@{/offer/create}" th:method="post">
             <fieldset>
 
                 <!-- Form Name -->
@@ -45,9 +45,9 @@
                 <div class="form-group" style="float: none; text-align: center;">
                     <label class="col-md-4 control-label" for="selectbasic">Select Basic</label>
                     <div class="col-md-4">
-                        <select id="selectbasic" name="selectbasic" class="form-control" style="right: auto; left: auto; text-align: left; float: none;">
-                            <option value="1">Option one</option>
-                            <option value="2">Option two</option>
+                        <select id="selectbasic" name="selectbasic" class="form-control" style="right: auto; left: auto; text-align: left; float: none;"
+                        >
+                            <option th:each="client:${clients}" th:name="clientId" th:value="*{client.getId()}"  th:text="*{client.getFio() +' '+ client.getPhone()}"></option>
                         </select>
                     </div>
                 </div>
@@ -56,28 +56,28 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="selectbasic">Select Basic</label>
                     <div class="col-md-4">
-                        <select id="selectbasic" name="selectbasic" class="form-control">
-                            <option value="1">Option one</option>
-                            <option value="2">Option two</option>
+                        <select id="selectbasic" name="selectbasic" class="form-control"
+                                >
+                            <option th:each="credit:${credits}" th:name="creditId" th:value="*{credit.getId()}"  th:text="*{credit.getLimit() +' '+ credit.getPercent()}"></option>
                         </select>
                     </div>
                 </div>
 
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="textinput">Text Input</label>
+                    <label class="col-md-4 control-label" for="textinput">Loan sum</label>
                     <div class="col-md-4">
-                        <input id="textinput" name="textinput" type="text" placeholder="placeholder" class="form-control input-md">
-                        <span class="help-block">help</span>
+                        <input id="textinput" name="textinput" type="text" placeholder="placeholder" class="form-control input-md" th:name="sum">
+
                     </div>
                 </div>
 
                 <!-- Text input-->
                 <div class="form-group" style="text-align: center;">
-                    <label class="col-md-4 control-label" for="textinput">Text Input</label>
+                    <label class="col-md-4 control-label" for="textinput">Period</label>
                     <div class="col-md-4" style="float: none; text-align: center;">
-                        <input id="textinput" name="textinput" type="text" placeholder="placeholder" class="form-control input-md">
-                        <span class="help-block">help</span>
+                        <input id="textinput" name="textinput" type="text" placeholder="placeholder" class="form-control input-md"  th:name="period">
+                        <span class="help-block">in months</span>
                     </div>
                 </div>
 

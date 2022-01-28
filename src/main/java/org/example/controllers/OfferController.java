@@ -9,8 +9,10 @@ import org.example.services.CreditProcessor;
 import org.example.services.data.ClientService;
 import org.example.services.data.CreditService;
 import org.example.services.data.LoanOfferService;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,10 +35,10 @@ public class OfferController {
 
     @PostMapping("/create")
     public String createOfferAndShowSchedule(Model model,
-                                             @RequestParam("creditId") String creditId,
                                              @RequestParam("clientId") String clientId,
-                                             String sum,
-                                             String period) {
+                                             @RequestParam("creditId") String creditId,
+                                             @RequestParam("sum") String sum,
+                                             @RequestParam("period") String period) {
         Client client = clientService.findById(UUID.fromString(clientId));
         Credit credit = creditService.findById(UUID.fromString(creditId));
         BigDecimal sumbd = new BigDecimal(sum);
@@ -47,5 +49,13 @@ public class OfferController {
         return "/offer/schedule";
     }
 
+    @GetMapping("/preparation")
+    public  String preparationOffer(Model model){
+
+        model.addAttribute("clients",clientService.getAll());
+        model.addAttribute("credits",creditService.getAll());
+
+        return "/offer/createOffer";
+    }
 
 }
